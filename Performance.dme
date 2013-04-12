@@ -14,3 +14,11 @@
  * You should have received a copy of the GNU Lesser General Public License              *
  * along with the BYOND Performance Library. If not, see <http://www.gnu.org/licenses/>. *
  *****************************************************************************************/
+
+#include "Cache\Cache.dm"
+#include "Cache\LRUCache.dm"
+
+#ifdef __UNIT_TEST__
+#include "Cache\Test\Test.dm"
+#endif
+
