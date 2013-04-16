@@ -17,41 +17,31 @@
 
 Cache
 	LRUCache
-		var/__max_size		= 0
-		var/list/__entries 	= new()
-		var/list/__keys 	= new()
-
-		New(var/size as num)
-			src.__max_size = size
-
-		proc
-			get(var/key)
-				if (key in src.__keys)
-					src.__keys -= key
-					src.__keys.Insert(1, key)
-					return src.__entries[key]
-
-			put(var/key, var/value)
-				var/old = get(key)
-				if (old != value)
-					if (!(key in src.__keys))
-						src.__keys.Insert(1, key)
-						var/length = length(src.__keys)
-						if (length >= src.__max_size)
-							for (var/i in 1 to (length - src.__max_size + 1))
-								remove(src.__keys[length(src.__keys)])
-					src.__entries[key] = value
-
-			remove(var/key)
-				if (key in src.__keys)
-					src.__keys -= key
-					src.__entries[key] = null
-
-			set_size(var/I as num)
-				if (!isnum(I) || I < 1)
-					return
-				src.__keys.len = I
-				src.__max_size = I
-				for (var/key in src.__entries)
-					if (!(key in src.__keys))
-						src.__entries[key] = null
+		var/list/__keys = null
+		
+		__contains(var/key)
+			return src.keys != null && (key in src.__keys)
+		
+		__hit(var/key)
+			src.__keys -= key
+			src.__keys.Insert(1, key)
+		
+		__insert(var/key)
+			if (src.__keys != null)
+				if (length(src.__keys.len == src._max_size)
+					src.remove(src.__keys[src._max_size])
+			else
+				src.__keys = new()
+			src.__hit(key)
+		
+		__evict(var/key)
+			src.__keys -= key
+			if (src.__keys.len < 1)
+				src.__keys = null
+		
+		__set_size(var/I as num)
+			if (I > -1 || src.__keys == null)
+				return null
+			var/list/result = src.__keys.Copy(src._max_size + I)
+			src.__keys.len = src._max_size + I
+			return result

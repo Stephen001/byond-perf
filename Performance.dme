@@ -17,6 +17,7 @@
 
 #include "Cache\Cache.dm"
 #include "Cache\LRUCache.dm"
+#include "Pool\Pool.dm"
 
 #ifdef __UNIT_TEST__
 #include "Cache\Test\Test.dm"
